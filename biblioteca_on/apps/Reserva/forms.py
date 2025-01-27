@@ -29,9 +29,40 @@ class ReservacionForm(forms.ModelForm):
         # Solo mostrar libros con ejemplares disponibles
         self.fields['libro'].queryset = Libro.objects.filter(ejemplares__gt=0, condicion=Libro.Condicion.DISPONIBLE)
 
+
+
+from django import forms
+from .models import Prestamo
+from datetime import timedelta
+
 class PrestamoForm(forms.ModelForm):
     class Meta:
         model = Prestamo
-        fields = '__all__'
-
-
+        fields = [
+            'fecha_recoleccion',
+            'fecha_devolucion',
+            'fecha_limite_devolucion',
+            'estado_prestamo',
+            'recargo_total',
+            'estado',
+        ]
+        widgets = {
+            'fecha_recoleccion': forms.DateInput(attrs={
+                'class': 'form-control fecha-picker',
+                'autocomplete': 'off',
+                'type': 'text',  # Usamos texto para no interferir con Flatpickr
+            }),
+            'fecha_devolucion': forms.DateInput(attrs={
+                'class': 'form-control fecha-picker',
+                'autocomplete': 'off',
+                'type': 'text',
+            }),
+            'fecha_limite_devolucion': forms.DateInput(attrs={
+                'class': 'form-control fecha-picker',
+                'autocomplete': 'off',
+                'type': 'text',
+            }),
+            'estado_prestamo': forms.Select(attrs={'class': 'form-select'}),
+            'recargo_total': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese el recargo'}),
+            'estado': forms.Select(attrs={'class': 'form-select'}),
+        }

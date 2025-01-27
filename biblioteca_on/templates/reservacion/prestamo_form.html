@@ -20,95 +20,7 @@
                     <form method="POST">
                         {% csrf_token %}
 
-                        <div class="row">
-                            <!-- Campo: Fecha de recolección -->
-                            <div class="col-md-6 mb-3">
-                                <label for="id_fecha_recoleccion" class="form-label">Fecha de Recolección</label>
-                                <input type="date" name="fecha_recoleccion" id="fecha_recoleccion" class="form-control {% if form.fecha_recoleccion.errors %}is-invalid{% endif %}" value="{{ form.fecha_recoleccion.value|default:'' }}">
-                                {% if form.fecha_recoleccion.errors %}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.fecha_recoleccion.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Campo: Fecha de devolución -->
-                            <div class="col-md-6 mb-3">
-                                <label for="id_fecha_devolucion" class="form-label">Fecha de Devolución</label>
-                                <input type="date" name="fecha_devolucion" id="fecha_devolucion" class="form-control {% if form.fecha_devolucion.errors %}is-invalid{% endif %}" value="{{ form.fecha_devolucion.value|default:'' }}">
-                                {% if form.fecha_devolucion.errors %}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.fecha_devolucion.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <!-- Campo: Fecha límite de devolución -->
-                            <div class="col-md-6 mb-3">
-                                <label for="id_fecha_limite_devolucion" class="form-label">Fecha Límite de Devolución</label>
-                                <input type="date" name="fecha_limite_devolucion" id="fecha_limite_devolucion" class="form-control {% if form.fecha_limite_devolucion.errors %}is-invalid{% endif %}" value="{{ form.fecha_limite_devolucion.value|default:'' }}">
-                                {% if form.fecha_limite_devolucion.errors %}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.fecha_limite_devolucion.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Campo: Estado del préstamo -->
-                            <div class="col-md-6 mb-3">
-                                <label for="id_estado_prestamo" class="form-label">Estado del Préstamo</label>
-                                <select name="estado_prestamo" id="estado_prestamo" class="form-select {% if form.estado_prestamo.errors %}is-invalid{% endif %}">
-                                    <option value="Devuelto" {% if form.estado_prestamo.value == 'Devuelto' %} selected {% endif %}>Devuelto</option>
-                                    <option value="Pendiente" {% if form.estado_prestamo.value == 'Pendiente' %} selected {% endif %}>Pendiente</option>
-                                </select>
-                                {% if form.estado_prestamo.errors %}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.estado_prestamo.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <!-- Campo: Recargo Total -->
-                            <div class="col-md-6 mb-3">
-                                <label for="id_recargo_total" class="form-label">Recargo Total</label>
-                                <input type="text" name="recargo_total" id="recargo_total" class="form-control {% if form.recargo_total.errors %}is-invalid{% endif %}" value="{{ form.recargo_total.value|default:'' }}">
-                                {% if form.recargo_total.errors %}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.recargo_total.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- Campo: Estado activo -->
-                            <div class="col-md-6 mb-3">
-                                <label for="id_estado_activo" class="form-label">Estado Activo</label>
-                                <select name="estado_activo" id="estado_activo" class="form-select {% if form.estado_activo.errors %}is-invalid{% endif %}">
-                                    <option value="True" {% if form.estado_activo.value == 'True' %} selected {% endif %}>Activo</option>
-                                    <option value="False" {% if form.estado_activo.value == 'False' %} selected {% endif %}>Inactivo</option>
-                                </select>
-                                {% if form.estado_activo.errors %}
-                                    <div class="invalid-feedback">
-                                        {% for error in form.estado_activo.errors %}
-                                            <p>{{ error }}</p>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        </div>
+                        {{ form.as_p }}
 
                         <!-- Botones -->
                         <div class="d-flex justify-content-center mt-4">
@@ -126,5 +38,21 @@
 {% endblock %}
 
 {% block js %}
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('.fecha-picker', {
+                dateFormat: 'Y-m-d',  // Formato de fecha estándar
+                allowInput: true,  // Permitimos la entrada, pero también se selecciona desde el calendario
+                locale: 'es',  // Ajuste de localización a español
+                defaultDate: function (e) {
+                    // Esto se asegura de cargar la fecha inicial desde el campo
+                    return e.value ? e.value : ""; // Si tiene un valor ya asignado, la carga
+                }
+            });
+        });
+    </script>
+
+
 {% endblock %}

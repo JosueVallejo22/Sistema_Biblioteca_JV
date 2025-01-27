@@ -107,27 +107,29 @@ class PrestamoDetailView(PermissionRequiredMixin, DetailView):
     template_name = 'reservacion/prestamo_detail.html'
     permission_required = 'Reserva.view_prestamo'
 
+from django.http import HttpResponse
 
 class PrestamoUpdateView(PermissionRequiredMixin, UpdateView):
     model = Prestamo
     form_class = PrestamoForm
-    context_object_name = 'prestamo'
     template_name = 'reservacion/prestamo_form.html'
-    success_url = reverse_lazy('Reservacion:prestamo_detail {prestamo_id}')
     permission_required = 'Reserva.update_prestamo'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['prestamo'] = self.get_object()  # Envía el objeto préstamo al template
+        return context
+
     def get_success_url(self):
-        # Retorna la URL para el detalle del préstamo actualizado
         return reverse('Reservacion:prestamo_detail', kwargs={'pk': self.object.pk})
 
-    def form_valid(self, form):
-        # Al guardar el préstamo, automáticamente se sincroniza el estado de la reservación
-        return super().form_valid(form)
 
-#################################################################################################33
+#################################################################################################
+
 
 class RealizarReservaView(PermissionRequiredMixin, View):
     permission_required = 'Reserva.add_reservacion'
+
     def get(self, request, pk):
         libro = get_object_or_404(Libro, pk=pk)
         return render(request, 'bibliotecario/libro/libro_detail.html', {'libro': libro})
@@ -154,12 +156,18 @@ class RealizarReservaView(PermissionRequiredMixin, View):
             messages.error(request, "Ya tienes una reservación activa. No puedes realizar otra hasta completarla.")
             return redirect('Libros:libros_detail', pk=libro.pk)
 
+        # Validación 4: Verificar si el saldo pendiente del usuario es mayor a 5
+        saldo_usuario = request.user.saldo  # Asume que 'saldo' es un campo decimal en el modelo de Usuario
+        if saldo_usuario > 5:
+            messages.error(request, "No puedes realizar una reserva mientras tengas un saldo pendiente superior a $5.00 .")
+            return redirect('Libros:libros_detail', pk=libro.pk)
+
         # Crear la reserva automáticamente
         nueva_reservacion = Reservacion(
             usuario=request.user,
             libro=libro,
             fecha_reservacion=timezone.now(),
-            estado_reservacion='Reservado',  # Asegúrate de usar el valor correcto del estado
+            estado_reservacion='Reservado',
             fecha_limite_reservacion=timezone.now() + timedelta(days=3)  # Fecha límite de 3 días
         )
 

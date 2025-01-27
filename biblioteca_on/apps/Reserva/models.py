@@ -51,12 +51,13 @@ class Prestamo(models.Model):
         PENDIENTE = 'PENDIENTE', 'Pendiente',
         RECOGIDO = 'RECOGIDO', 'Recogido',
         DEVUELTO = 'DEVUELTO', 'Devuelto'
-    reservacion = models.OneToOneField(Reservacion, on_delete=models.PROTECT, verbose_name='Reservación')  # Cada préstamo depende de una reserva
+
+    reservacion = models.OneToOneField(Reservacion, on_delete=models.PROTECT, verbose_name='Reservación')
     fecha_recoleccion = models.DateField(null=True, blank=True, verbose_name="Fecha de recolección")
     fecha_devolucion = models.DateField(null=True, blank=True, verbose_name="Fecha de devolución")
     fecha_limite_devolucion = models.DateField(null=True, blank=True, verbose_name="Fecha límite de devolución")
     estado_prestamo = models.CharField(max_length=20, choices=Estado_Prestamo.choices, default=Estado_Prestamo.PENDIENTE, verbose_name="Estado de la prestamo")
-    recargo_total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Recargo Total")
+    recargo_total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Recargo Total", null=True, blank=True, default=0)
     estado = models.BooleanField(default=False, verbose_name="Estado del prestamo")
 
     class Meta:
@@ -71,18 +72,22 @@ class Prestamo(models.Model):
 
         # Lógica de validación para fecha de devolución
         if self.fecha_devolucion:
-            # Calcular atraso si devuelve después de la fecha límite
             if self.fecha_limite_devolucion and self.fecha_devolucion > self.fecha_limite_devolucion:
+                # Se calcula el atraso en días si la devolución es posterior a la fecha límite
                 dias_atraso = (self.fecha_devolucion - self.fecha_limite_devolucion).days
-                self.recargo_total = dias_atraso * 3  # $3 por cada día de atraso
+                # Sumamos $3 por cada día de atraso
+                self.recargo_total = dias_atraso * 3
+
             self.estado_prestamo = self.Estado_Prestamo.DEVUELTO
 
         if self.estado_prestamo == self.Estado_Prestamo.DEVUELTO:
-            # Si se devuelve el libro, sumar el recargo al saldo del usuario
             usuario = self.reservacion.usuario
-            usuario.saldo += self.recargo_total  # Sumar el recargo al saldo del usuario
+            if self.recargo_total is None:
+                self.recargo_total = 0 # Previene un posible None
+            usuario.saldo += self.recargo_total
             usuario.save()
 
+        # Actualizar estado de la reservación
         if self.estado_prestamo == 'PENDIENTE':
             self.reservacion.actualizar_estado('Reservado', ajustar_ejemplares=False)
         elif self.estado_prestamo == 'RECOGIDO':
@@ -94,5 +99,3 @@ class Prestamo(models.Model):
 
     def __str__(self):
         return f'Préstamo del libro {self.reservacion.libro.titulo} para {self.reservacion.usuario.first_name} {self.reservacion.usuario.last_name}'
-
-
