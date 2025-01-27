@@ -1,0 +1,27 @@
+/* Establecer una altura mínima para llenar toda la pantalla */
+html, body {
+    height: 100%;
+}
+
+/* Hacer que el contenido principal crezca para ocupar el espacio restante */
+main {
+    flex: 1;
+}
+
+/* Fondo oscuro y texto blanco para el pie de página */
+footer {
+    background-color: #343a40; /* bg-dark */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Asegura que el footer siempre esté al fondo */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}

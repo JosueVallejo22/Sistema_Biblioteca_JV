@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Lista de Libros {% endblock %}
+{% block css %}
+    <link href="/static/css/libros_list.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <header class="header text-center mb-4">
+        <h1 class="mb-3">Lista de Libros</h1>
+        <div class="form-buttons">
+            <a href="{% url 'Libros:libros_create' %}" class="btn btn-success shadow-sm">
+                <i class="bi bi-plus"></i> Añadir Nuevo Libro
+            </a>
+        </div>
+    </header>
+
+    {% if libros %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for libro in libros %}
+            <div class="col">
+                <div class="card shadow-sm h-100">
+                    <!-- Portada del libro -->
+                    <div class="card-img">
+                        {% if libro.portada %}
+                            <img src="{{ libro.portada.url }}" class="img-fluid" alt="Portada de {{ libro.titulo }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x400?text=Sin+Imagen" class="img-fluid" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+
+                    <!-- Información y botones -->
+                    <div class="card-footer text-center">
+                        <h5 class="card-title mb-2">{{ libro.titulo }}</h5>
+                        <p class="card-text mb-1"><strong>Autor:</strong> {{ libro.autor }}</p>
+                        <p class="card-text mb-3 text-success"><strong>Ejemplares:</strong> {{ libro.ejemplares }}</p>
+                        {% include "componentes/botones.html" with detalle_url="Libros:libros_detail" editar_url="Libros:libros_update" eliminar_url="Libros:libros_delete" objeto_pk=libro.pk %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            No hay libros disponibles en este momento. ¡Añade algunos!
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

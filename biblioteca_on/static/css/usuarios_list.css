@@ -1,0 +1,13 @@
+/* Asegura que las tablas se vean bien en todas las pantallas */
+.table-responsive {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.table th, .table td {
+    vertical-align: middle;  /* Centrado verticalmente para mejor visualización */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;  /* Alternar los colores de las filas */
+}

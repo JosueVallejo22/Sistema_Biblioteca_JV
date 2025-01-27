@@ -1,0 +1,111 @@
+/* Contenedor general */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+.header h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.header .form-buttons .btn {
+    font-size: 16px;
+    padding: 10px 25px;
+    border-radius: 50px;
+}
+
+/* Tarjetas */
+.card {
+    border: none;
+    max-width: 100%;              /* Asegura que las cards ocupen el 100% del espacio asignado */
+    border-radius: 10px;          /* Bordes redondeados, si se desea */
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #ffffff;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Imagen de portada - Ajuste completo */
+.card-img img {
+    width: 100%;              /* Ancho completo del contenedor */
+    height: 200px;            /* Altura uniforme para todas las portadas */
+    object-fit: contain;      /* Escala la imagen para que toda sea visible */
+    background-color: #f8f9fa; /* Fondo neutro para imágenes más pequeñas */
+    border-bottom: 1px solid #ddd; /* Línea decorativa */
+}
+
+.card-body {
+    padding: 15px;
+    font-size: 14px;  /* Tamaño más pequeño para que el contenido ocupe menos espacio */
+}
+
+
+/* Pie de la tarjeta */
+.card-footer {
+    padding: 8px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    background-color: #f8f9fa;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+    border-radius: 0 0 12px 12px;
+}
+
+/* Título */
+.card-footer .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Texto */
+.card-footer .card-text {
+    font-size: 14px;
+    margin: 0;
+    color: #444;
+}
+
+.card-footer .card-text.text-success {
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Botones */
+.card-footer .btn {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 30px;
+}
+
+/* Alertas */
+.alert {
+    font-size: 16px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .card-img img {
+        height: 200px;
+    }
+
+    .header .form-buttons .btn {
+        font-size: 14px;
+        padding: 8px 20px;
+    }
+}

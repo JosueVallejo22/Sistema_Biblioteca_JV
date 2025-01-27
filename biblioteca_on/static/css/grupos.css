@@ -1,0 +1,29 @@
+/* Asegurar que las tablas sean responsivas */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Mejorar la visibilidad de las badges */
+.badge {
+    margin-right: 5px;
+}
+
+/* Estilo para la lista de permisos en la vista de detalles */
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Separar el botón de "Volver" en la vista detalle */
+.mt-4 .btn {
+    margin-top: 20px;
+}
+
+/* Hacer que las badges de permisos no se amontonen demasiado */
+@media (max-width: 768px) {
+    .badge {
+        display: block;
+        margin-bottom: 5px;
+    }
+}

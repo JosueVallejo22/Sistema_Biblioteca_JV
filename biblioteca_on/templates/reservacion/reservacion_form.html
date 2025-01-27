@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %} Crear Reservación {% endblock %}
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">Crear Reservación</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <!-- Campo: Libro -->
+                        <div class="mb-3">
+                            <label for="id_libro" class="form-label">Libro</label>
+                            <select name="libro" id="libro" class="form-select {% if form.libro.errors %}is-invalid{% endif %}">
+                                {% for libro in form.libro.field.queryset %}
+                                    <option value="{{ libro.id }}" {% if libro.id == form.libro.value %} selected {% endif %}>{{ libro.titulo }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.libro.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.libro.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo: Usuario -->
+                        <div class="mb-3">
+                            <label for="id_usuario" class="form-label">Usuario</label>
+                            <select name="usuario" id="usuario" class="form-select {% if form.usuario.errors %}is-invalid{% endif %}">
+                                {% for usuario in form.usuario.field.queryset %}
+                                    <option value="{{ usuario.id }}" {% if usuario.id == form.usuario.value %} selected {% endif %}>{{ usuario.first_name }} {{ usuario.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.usuario.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.usuario.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="row">
+                            <!-- Campo: Fecha de Reservación -->
+                            <div class="col-6 mb-3">
+                                <label for="id_fecha_reservacion" class="form-label">Fecha de Reservación</label>
+                                <input type="date" name="fecha_reservacion" id="fecha_reservacion" class="form-control {% if form.fecha_reservacion.errors %}is-invalid{% endif %}" value="{{ form.fecha_reservacion.value|default:'' }}">
+                                {% if form.fecha_reservacion.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.fecha_reservacion.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Fecha Límite de Reservación -->
+                            <div class="col-6 mb-3">
+                                <label for="id_fecha_limite_reservacion" class="form-label">Fecha Límite de Reservación</label>
+                                <input type="date" name="fecha_limite_reservacion" id="fecha_limite_reservacion" class="form-control {% if form.fecha_limite_reservacion.errors %}is-invalid{% endif %}" value="{{ form.fecha_limite_reservacion.value|default:'' }}">
+                                {% if form.fecha_limite_reservacion.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.fecha_limite_reservacion.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Campo: Estado de la Reservación -->
+                        <div class="mb-3">
+                            <label for="id_estado_reservacion" class="form-label">Estado de la Reservación</label>
+                            <select name="estado_reservacion" id="estado_reservacion" class="form-select {% if form.estado_reservacion.errors %}is-invalid{% endif %}">
+                                <option value="Reservado" {% if form.estado_reservacion.value == 'Reservado' %} selected {% endif %}>Reservado</option>
+                                <option value="Vencido" {% if form.estado_reservacion.value == 'Vencido' %} selected {% endif %}>Vencido</option>
+                                <option value="No Completa" {% if form.estado_reservacion.value == 'No Completa' %} selected {% endif %}>No Completa</option>
+                                <option value="Completa" {% if form.estado_reservacion.value == 'Completa' %} selected {% endif %}>Completa</option>
+                                <option value="Anulada" {% if form.estado_reservacion.value == 'Anulada' %} selected {% endif %}>Anulada</option>
+                            </select>
+                            {% if form.estado_reservacion.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.estado_reservacion.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">Guardar Reservación</button>
+                            <a href="{% url 'Libros:libros' %}" class="btn btn-secondary ms-3">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

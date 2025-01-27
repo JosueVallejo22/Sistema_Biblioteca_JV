@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Registrar Libro{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">{% if object %}Editar Libro{% else %}Registrar Nuevo Libro{% endif %}</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row">
+                            <!-- Campo: Categoría -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_categoria" class="form-label">Categoría</label>
+                                <select name="categoria" id="categoria" class="form-select {% if form.categoria.errors %}is-invalid{% endif %}">
+                                    {% for categoria in form.categoria.field.queryset %}
+                                        <option value="{{ categoria.id }}" {% if categoria.id == form.categoria.value %} selected {% endif %}>{{ categoria.categoria }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if form.categoria.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.categoria.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Autor -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_autor" class="form-label">Autor</label>
+                                <select name="autor" id="autor" class="form-select {% if form.autor.errors %}is-invalid{% endif %}">
+                                    {% for autor in form.autor.field.queryset %}
+                                        <option value="{{ autor.id }}" {% if autor.id == form.autor.value %} selected {% endif %}>{{ autor.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if form.autor.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.autor.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Campo: Título -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_titulo" class="form-label">Título</label>
+                                <input type="text" name="titulo" id="titulo" class="form-control {% if form.titulo.errors %}is-invalid{% endif %}" value="{{ form.titulo.value|default:'' }}">
+                                {% if form.titulo.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.titulo.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Descripción -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_descripcion" class="form-label">Descripción</label>
+                                <input type="text" name="descripcion" id="descripcion" class="form-control {% if form.descripcion.errors %}is-invalid{% endif %}" value="{{ form.descripcion.value|default:'' }}">
+                                {% if form.descripcion.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.descripcion.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Campo: ISBN -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_isbn" class="form-label">ISBN</label>
+                                <input type="text" name="isbn" id="isbn" class="form-control {% if form.isbn.errors %}is-invalid{% endif %}" value="{{ form.isbn.value|default:'' }}">
+                                {% if form.isbn.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.isbn.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Fecha Publicación -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_fecha_publicacion" class="form-label">Fecha de Publicación</label>
+                                <input type="date" name="fecha_publicacion" id="fecha_publicacion" class="form-control {% if form.fecha_publicacion.errors %}is-invalid{% endif %}" value="{{ form.fecha_publicacion.value|default:'' }}">
+                                {% if form.fecha_publicacion.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.fecha_publicacion.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Campo: Portada -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_portada" class="form-label">Portada</label>
+                                <input type="file" name="portada" id="portada" class="form-control {% if form.portada.errors %}is-invalid{% endif %}">
+                                {% if form.portada.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.portada.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Ejemplares y Recomendaciones -->
+                            <div class="col-md-3 mb-3">
+                                <label for="id_ejemplares" class="form-label">Ejemplares</label>
+                                <input type="number" name="ejemplares" id="ejemplares" class="form-control {% if form.ejemplares.errors %}is-invalid{% endif %}" value="{{ form.ejemplares.value|default:'' }}">
+                                {% if form.ejemplares.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.ejemplares.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="id_recomendaciones" class="form-label">Recomendaciones</label>
+                                <input type="number" name="recomendaciones" id="recomendaciones" class="form-control {% if form.recomendaciones.errors %}is-invalid{% endif %}" value="{{ form.recomendaciones.value|default:'0' }}">
+                                {% if form.recomendaciones.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.recomendaciones.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Campo: Condición -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_condicion" class="form-label">Condición</label>
+                                <select name="condicion" id="condicion" class="form-select {% if form.condicion.errors %}is-invalid{% endif %}">
+                                    <option value="Disponible" {% if form.condicion.value == 'Disponible' %} selected {% endif %}>Disponible</option>
+                                    <option value="Sin Ejemplares" {% if form.condicion.value == 'Sin Ejemplares' %} selected {% endif %}>Sin Ejemplares</option>
+                                </select>
+                                {% if form.condicion.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.condicion.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Estado -->
+                            <div class="col-md-6 mb-3">
+                                <label for="id_estado" class="form-label">Estado</label>
+                                <select name="estado" id="estado" class="form-select {% if form.estado.errors %}is-invalid{% endif %}">
+                                    <option value="True" {% if form.estado.value == 'True' %} selected {% endif %}>Activo</option>
+                                    <option value="False" {% if form.estado.value == 'False' %} selected {% endif %}>Inactivo</option>
+                                </select>
+                                {% if form.estado.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.estado.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">{% if object %}Actualizar{% else %}Crear{% endif %}</button>
+                            <a href="{% url 'Libros:libros' %}" class="btn btn-secondary ms-3">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

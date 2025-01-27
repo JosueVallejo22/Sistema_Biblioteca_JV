@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Eliminar Usuario {% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-3">¿Estás seguro de que deseas eliminar este usuario?</h1>
+        <p>Nombre del usuario: <strong>{{ object.first_name }} {{ object.last_name }}</strong></p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'Administracion:usuario_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Inicio {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    {% if messages %}
+        <div class="mb-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="text-center mb-4">
+        <h1>Bienvenido{% if user.is_authenticated %}, {{ user.username }}{% endif %}!</h1>
+        {% if user.is_authenticated %}
+            <p>Nos alegra verte de nuevo. ¿Qué te gustaría hacer hoy?</p>
+        {% else %}
+            <p>¡Bienvenido a nuestra plataforma! Por favor, <a href="{% url 'Login:login' %}">inicia sesión</a> o <a href="{% url 'Login:register' %}">regístrate</a>.</p>
+        {% endif %}
+    </div>
+
+    <header class="text-center mb-5">
+        <h2>Libros Más Recomendados</h2>
+    </header>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% if libros %}
+            {% for libro in libros %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-img-top">
+                        {% if libro.portada %}
+                            <img src="{{ libro.portada.url }}" class="img-fluid" alt="Imagen de {{ libro.titulo }}">
+                        {% else %}
+                            <img src="https://via.placeholder.com/150x200?text=Sin+Imagen" class="img-fluid" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ libro.titulo }}</h5>
+                        <p class="card-text"><strong>Autor:</strong> {{ libro.autor }}</p>
+                        <p class="card-text"><strong>Condición:</strong> {{ libro.condicion }}</p>
+                        <p class="card-text">{{ libro.ejemplares }} Ejemplar(es) Disponible(s)</p>
+                        <p class="card-text">Recomendado: {{ libro.recomendaciones }} veces</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'Libros:libros_detail' libro.id %}" class="btn btn-primary btn-sm">
+                            Ver Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col text-center">
+                <p>No hay libros recomendados aún. Vuelve más tarde.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

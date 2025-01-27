@@ -1,0 +1,70 @@
+/* Error 403 - Estilos Generales */
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Estilo del contenedor del error */
+.error-container {
+    margin-top: 100px;
+    background-color: #f8d7da;  /* Fondo rojo suave */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.error-code {
+    font-size: 120px;
+    font-weight: 700;
+    color: #721c24;
+}
+
+.error-message {
+    font-size: 24px;
+    font-weight: 600;
+    color: #721c24;
+    margin-top: 20px;
+}
+
+.error-description {
+    font-size: 16px;
+    color: #856404;
+    margin-top: 20px;
+}
+
+/* Estilos del botón */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 10px 25px;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    border-radius: 30px;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .error-code {
+        font-size: 90px;
+    }
+
+    .error-message {
+        font-size: 22px;
+    }
+
+    .error-description {
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        font-size: 16px;
+        padding: 8px 20px;
+    }
+}

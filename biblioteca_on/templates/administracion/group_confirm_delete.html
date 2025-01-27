@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Eliminar Rol {% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-3">¿Estás seguro de que deseas eliminar este Rol?</h1>
+        <p>Nombre del Rol: <strong>{{ object.name }}</strong></p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'Administracion:group_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

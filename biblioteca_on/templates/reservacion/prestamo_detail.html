@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Detalle del Préstamo {% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Detalle del Préstamo para el libro: {{ prestamo.reservacion.libro.titulo }}</h1>
+        
+        <p><strong>Libro:</strong> {{ prestamo.reservacion.libro.titulo }} - {{ prestamo.reservacion.libro.autor.nombre }}</p>
+        <p><strong>Usuario:</strong> {{ prestamo.reservacion.usuario.first_name }} {{ prestamo.reservacion.usuario.last_name }} - {{ prestamo.reservacion.usuario.rol.name }}</p>
+        <p><strong>Estado del préstamo:</strong> {{ prestamo.estado_prestamo }}</p>
+        <p><strong>Fecha de recolección:</strong> {% if prestamo.fecha_recoleccion %} {{ prestamo.fecha_recoleccion }} {% else %} No asignada {% endif %}</p>
+        <p><strong>Fecha de devolución:</strong> {% if prestamo.fecha_devolucion %} {{ prestamo.fecha_devolucion }} {% else %} No asignada {% endif %}</p>
+        <p><strong>Fecha límite de devolución:</strong> {% if prestamo.fecha_limite_devolucion %} {{ prestamo.fecha_limite_devolucion }} {% else %} No asignada {% endif %}</p>
+        <p><strong>Recargo por atrasos:</strong> ${{ prestamo.recargo_total }}</p>
+
+        <hr>
+
+
+            <a href="{% url 'Reservacion:prestamo_update' prestamo.pk %}" class="btn btn-primary">Editar Préstamo</a>
+
+        <a href="{% url 'Reservacion:reservaciones' %}" class="btn btn-info">Volver al listado de Reservaciones</a>
+        <a href="{% url 'Reservacion:prestamo_list' %}" class="btn btn-info">Volver al listado de Prestamos</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+/* Ajustes generales para el formulario */
+body {
+    background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Card */
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+/* Header de la card */
+.card-header {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Inputs */
+input, select, textarea {
+    border-radius: 10px !important;
+    padding: 10px;
+}
+
+/* Botones */
+button {
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+button:focus,
+button:hover {
+    background-color: #0056b3 !important;
+    color: white !important;
+}
+
+/* Errores */
+.text-danger {
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 15px;
+    }
+    .form-label {
+        font-size: 0.9rem;
+    }
+}

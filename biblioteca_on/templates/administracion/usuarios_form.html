@@ -1,0 +1,248 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Formulario de Usuario
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/usuarios_form.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">Formulario de Usuario</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+                            <!-- Campo: DNI -->
+                            <div class="col-md-6">
+                                <label for="dni" class="form-label">DNI</label>
+                                <input type="text" name="dni" id="dni" class="form-control" value="{{ form.dni.value|default:'' }}" oninput="validateDNI(this)">
+                                {% if form.dni.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.dni.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Nombre -->
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" name="telefono" id="telefono" class="form-control" value="{{ form.telefono.value|default:'' }}" oninput="validatePhoneNumber(this)">
+                                {% if form.telefono.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.telefono.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Apellido -->
+                            <div class="col-md-6">
+                                <label for="last_name" class="form-label">Apellido</label>
+                                <input type="text" name="last_name" id="last_name" class="form-control" value="{{ form.last_name.value|default:'' }}">
+                                {% if form.last_name.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.last_name.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Nombre de Usuario -->
+                            <div class="col-md-6">
+                                <label for="username" class="form-label">Nombre de Usuario</label>
+                                <input type="text" name="username" id="username" class="form-control" value="{{ form.username.value|default:'' }}">
+                                {% if form.username.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Correo Electrónico -->
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" name="email" id="email" class="form-control" value="{{ form.email.value|default:'' }}">
+                                {% if form.email.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Teléfono -->
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="text" name="telefono" id="telefono" class="form-control" value="{{ form.telefono.value|default:'' }}">
+                                {% if form.telefono.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.telefono.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Dirección -->
+                            <div class="col-md-12">
+                                <label for="direccion" class="form-label">Dirección</label>
+                                <input type="text" name="direccion" id="direccion" class="form-control" value="{{ form.direccion.value|default:'' }}">
+                                {% if form.direccion.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.direccion.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Fecha de Nacimiento -->
+                            <div class="col-md-6">
+                                <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" value="{{ form.fecha_nacimiento.value|default:'' }}">
+                                {% if form.fecha_nacimiento.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.fecha_nacimiento.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Foto de Perfil -->
+                            <div class="col-md-6">
+                                <label for="foto_perfil" class="form-label">Foto de Perfil</label>
+                                <input type="file" name="foto_perfil" id="foto_perfil" class="form-control">
+                                {% if form.foto_perfil.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.foto_perfil.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Condición -->
+                            <div class="col-md-6">
+                                <label for="condicion" class="form-label">Condición</label>
+                                {{ form.condicion }}
+                                {% if form.condicion.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.condicion.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Saldo -->
+                            <div class="col-md-6">
+                                <label for="saldo" class="form-label">Saldo</label>
+                                <input type="number" name="saldo" id="saldo" class="form-control" value="{{ form.saldo.value|default:'0' }}">
+                                {% if form.saldo.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.saldo.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Estado -->
+                            <div class="mb-2">
+                                <label for="id_estado" class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" name="estado" id="estado" class="form-check-input" {% if form.estado.value %}checked{% endif %}>
+                                    <label class="form-check-label" for="estado">Activo</label>
+                                </div>
+                                {% if form.estado.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.estado.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Grupo -->
+                            <div class="col-md-12">
+                                <label for="group" class="form-label">Grupo</label>
+                                <select name="group" id="group" class="form-select">
+                                    {% for group in form.group.field.queryset %}
+                                        <option value="{{ group.id }}" {% if group.id|stringformat:"s" == form.group.value|stringformat:"s" %}selected{% endif %}>
+                                            {{ group.name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                {% if form.group.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.group.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Contraseña -->
+                            <div class="col-md-6">
+                                <label for="password1" class="form-label">Contraseña</label>
+                                <input type="password" name="password1" id="password1" class="form-control">
+                                {% if form.password1.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.password1.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Campo: Repetir Contraseña -->
+                            <div class="col-md-6">
+                                <label for="password2" class="form-label">Repetir Contraseña</label>
+                                <input type="password" name="password2" id="password2" class="form-control">
+                                {% if form.password2.errors %}
+                                    <small class="text-danger">
+                                        {% for error in form.password2.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-center mt-4">
+                            <button type="submit" class="btn btn-success">
+                                {% if object %}Actualizar{% else %}Crear{% endif %}
+                            </button>
+                            <a href="{% url 'Administracion:group_list' %}" class="btn btn-secondary ms-3">Cancelar</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {% block js %}
+    <script src="{% static 'js/validaciones.js' %}"></script>
+    {% endblock %}
+{% endblock %}

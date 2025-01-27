@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Eliminar Reservacion {% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1 class="mb-3">¿Estás seguro de que deseas eliminar esta Reservacion?</h1>
+        <p>Reservacion a nombre de: <strong>{{ object.usuario.first_name }} {{ object.usuario.last_name }}</strong></p>
+        <p>Libro reservado: <strong>{{ object.libro.titulo }}</strong></p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'Administracion:usuario_list' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

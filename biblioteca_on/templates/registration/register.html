@@ -1,0 +1,195 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/usuarios_form.css' %}">
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header text-center bg-dark text-white">
+                        <h4 class="card-title">Registrar Usuario</h4>
+                        {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <!-- DNI -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_dni" class="form-label">DNI</label>
+                                    <input type="text" name="dni" id="id_dni" class="form-control" value="{{ form.dni.value|default:'' }}" maxlength="10" oninput="validateDNI(this)">
+                                    {% if form.dni.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.dni.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Nombre -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_first_name" class="form-label">Nombre</label>
+                                    <input type="text" name="first_name" id="id_first_name" class="form-control" value="{{ form.first_name.value|default:'' }}">
+                                    {% if form.first_name.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.first_name.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Apellido -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_last_name" class="form-label">Apellido</label>
+                                    <input type="text" name="last_name" id="id_last_name" class="form-control" value="{{ form.last_name.value|default:'' }}">
+                                    {% if form.last_name.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.last_name.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Username -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_username" class="form-label">Nombre de Usuario</label>
+                                    <input type="text" name="username" id="id_username" class="form-control" value="{{ form.username.value|default:'' }}">
+                                    {% if form.username.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.username.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_email" class="form-label">Correo Electrónico</label>
+                                    <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default:'' }}">
+                                    {% if form.email.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.email.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Teléfono -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_telefono" class="form-label">Teléfono</label>
+                                    <input type="text" name="telefono" id="id_telefono" class="form-control" value="{{ form.telefono.value|default:'' }}" maxlength="10" oninput="validatePhoneNumber(this)">
+                                    {% if form.telefono.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.telefono.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Dirección -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_direccion" class="form-label">Dirección</label>
+                                    <input type="text" name="direccion" id="id_direccion" class="form-control" value="{{ form.direccion.value|default:'' }}">
+                                    {% if form.direccion.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.direccion.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Fecha de Nacimiento -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                                    <input type="date" name="fecha_nacimiento" id="id_fecha_nacimiento" class="form-control" value="{{ form.fecha_nacimiento.value|default:'' }}">
+                                    {% if form.fecha_nacimiento.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.fecha_nacimiento.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Foto de Perfil -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_foto_perfil" class="form-label">Foto de Perfil</label>
+                                    <input type="file" name="foto_perfil" id="id_foto_perfil" class="form-control">
+                                    {% if form.foto_perfil.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.foto_perfil.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Contraseña -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_password1" class="form-label">Contraseña</label>
+                                    <input type="password" name="password1" id="id_password1" class="form-control" value="{{ form.password1.value|default:'' }}">
+                                    {% if form.password1.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.password1.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Confirmar Contraseña -->
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_password2" class="form-label">Confirmar Contraseña</label>
+                                    <input type="password" name="password2" id="id_password2" class="form-control">
+                                    {% if form.password2.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.password2.errors %}
+                                                <small>{{ error }}</small><br>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Botón de Enviar -->
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-success">Registrar</button>
+                                    <a href="{% url 'Login:login' %}" class="btn btn-secondary ms-3">Cancelar</a>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/validaciones.js' %}"></script>
+
+</body>
+</html>
